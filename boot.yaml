@@ -15,6 +15,7 @@
         csr_path: /etc/node_exporter/tls.csr
         privatekey_path: /etc/node_exporter/tls.key
         provider: selfsigned
+        state: absent
   roles:
     - prometheus.prometheus.node_exporter
   vars:
