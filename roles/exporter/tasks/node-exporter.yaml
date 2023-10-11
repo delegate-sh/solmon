@@ -1,3 +1,20 @@
 ---
-- prometheus.prometheus.node_exporter:
+pre_tasks:
+    - name: Create node_exporter cert dir
+      file:
+          path: "/etc/node_exporter"
+          state: directory
+          owner: root
+          group: root
+
+    - name: Create cert and key
+      openssl_certificate:
+          path: /etc/node_exporter/tls.cert
+          csr_path: /etc/node_exporter/tls.csr
+          privatekey_path: /etc/node_exporter/tls.key
+          provider: selfsigned
+vars:
     node_exporter_web_listen_address: 11000
+roles:
+ - prometheus.prometheus.node_exporter
+
