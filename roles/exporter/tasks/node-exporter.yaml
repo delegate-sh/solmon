@@ -22,13 +22,13 @@
 
 - name: Gen key
   openssl_privatekey:
-    path: "{{ node_exporter_dir_conf }}/tls.key"
+    path: "{{ node_exporter_dir_conf }}/node_exporter.key"
     size: 2048
 
 - name: Gen request
   openssl_csr:
     path: "{{ node_exporter_dir_conf }}/node_exporter.csr"
-    privatekey_path: "{{ node_exporter_dir_conf }}/tls.key"
+    privatekey_path: "{{ node_exporter_dir_conf }}/node_exporter.key"
 
 - name: Generate a Self Signed OpenSSL certificate
   openssl_certificate:
