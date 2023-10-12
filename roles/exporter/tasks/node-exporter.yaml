@@ -43,7 +43,7 @@
     dest: "{{ node_exporter_dir_conf }}/config.yml"
     owner: "{{ node_exporter_user }}"
     group: "{{ node_exporter_user }}"
-    mode: 0755
+    mode: 0400
 
 - name: if node exporter exist get version
   shell: "cat /etc/systemd/system/node_exporter.service | grep Version | sed s/'.*Version '//g"
