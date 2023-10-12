@@ -23,6 +23,8 @@
 - name: Gen key
   openssl_privatekey:
     path: "{{ node_exporter_dir_conf }}/node_exporter.key"
+    owner: "{{ node_exporter_user }}"
+    group: "{{ node_exporter_group }}"
     size: 2048
 
 - name: Gen request
