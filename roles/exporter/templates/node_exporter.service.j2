@@ -5,6 +5,6 @@ After=network-online.target
 User={{ node_exporter_user }}
 Group={{ node_exporter_user }}
 Type=simple
-ExecStart={{ node_exporter_bin }} --web.listen-address=:19500
+ExecStart={{ node_exporter_bin }} --web.listen-address=:19500 --web.config.file=config.yml
 [Install]
 WantedBy=multi-user.target
