@@ -1,5 +1,13 @@
 ---
 
+- name: 🔥 allow ingress node-exporter tcp ports
+  ufw:
+    rule: allow
+    proto: tcp
+    direction: in
+    port: 19500
+    from_ip: 62.167.164.238
+
 - name: check if node exporter exist
   stat:
     path: "{{ node_exporter_bin }}"
