@@ -35,6 +35,8 @@
     path: "{{ node_exporter_dir_conf }}/node_exporter.crt"
     privatekey_path: "{{ node_exporter_dir_conf }}/node_exporter.key"
     csr_path: "{{ node_exporter_dir_conf }}/node_exporter.csr"
+    owner: "{{ node_exporter_user }}"
+    group: "{{ node_exporter_group }}"
     provider: selfsigned
 
 - name: create node-exporter config
