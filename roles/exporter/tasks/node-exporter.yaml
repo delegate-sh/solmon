@@ -40,7 +40,7 @@
 - name: create node-exporter config
   template:
     src: config.yml.j2
-    dest: "{{ node_exporter_dir_conf }}"
+    dest: "{{ node_exporter_dir_conf }}/config.yml"
     owner: "{{ node_exporter_user }}"
     group: "{{ node_exporter_user }}"
     mode: 0755
