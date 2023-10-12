@@ -1,4 +1,5 @@
 ---
+
 - name: check if node exporter exist
   stat:
     path: "{{ node_exporter_bin }}"
@@ -18,6 +19,29 @@
     state: directory
     owner: "{{ node_exporter_user }}"
     group: "{{ node_exporter_group }}"
+
+- openssl_privatekey:
+  path: "{{ node_exporter_dir_conf }}/tls.key"
+  size: 2048
+
+- openssl_csr:
+  path: "{{ node_exporter_dir_conf }}/node_exporter.csr"
+  privatekey_path: "{{ node_exporter_dir_conf }}/tls.key"
+
+- name: Generate a Self Signed OpenSSL certificate
+  openssl_certificate:
+    path: "{{ node_exporter_dir_conf }}/node_exporter.crt"
+    privatekey_path: "{{ node_exporter_dir_conf }}/node_exporter.key"
+    csr_path: "{{ node_exporter_dir_conf }}/node_exporter.csr"
+    provider: selfsigned
+
+- name: create node-exporter config
+  template:
+    src: config.yml.j2
+    dest: "{{ node_exporter_dir_conf }}"
+    owner: "{{ node_exporter_user }}"
+    group: "{{ node_exporter_user }}"
+    mode: 0755
 
 - name: if node exporter exist get version
   shell: "cat /etc/systemd/system/node_exporter.service | grep Version | sed s/'.*Version '//g"
@@ -58,6 +82,12 @@
 
 - meta: flush_handlers
 
+- name: service always started
+  systemd:
+    name: node_exporter
+    state: started
+    enabled: yes
+
 - name: reload_daemon_and_restart_node_exporter
   systemd:
     name: node_exporter
@@ -65,8 +95,3 @@
     daemon_reload: yes
     enabled: yes
 
-- name: service always started
-  systemd:
-    name: node_exporter
-    state: started
-    enabled: yes
